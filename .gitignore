@@ -1,0 +1,70 @@
+# ==========================
+# Angular / Node (frontend)
+# ==========================
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Angular cache & coverage
+/.angular/cache
+/coverage
+
+# Misc frontend
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+
+# ==========================
+# Python / Django (backend)
+# ==========================
+
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Django static / media (à adapter selon ton déploiement)
+staticfiles/
+media/
+
+# Environnements / secrets
+.env
+.env.*
+*.pem
+
+# ==========================
+# IDEs and editors
+# ==========================
+
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# ==========================
+# System files
+# ==========================
+
+.DS_Store
+Thumbs.db
