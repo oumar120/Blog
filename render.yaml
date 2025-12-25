@@ -12,6 +12,7 @@ services:
     name: blog-api
     runtime: python
     plan: free
+    rootDir: back_dango
     buildCommand: "./build.sh"
     startCommand: "cd src && gunicorn blog.wsgi:application"
     envVars:
