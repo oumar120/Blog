@@ -14,3 +14,6 @@ python manage.py collectstatic --no-input
 
 # Appliquer les migrations
 python manage.py migrate
+
+# Créer le superuser depuis les variables d'environnement (si configuré)
+python manage.py create_superuser_from_env
