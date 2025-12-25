@@ -3,7 +3,7 @@
 Application de blog complète construite avec **Django REST Framework** (backend API) et **Angular** (frontend SPA).
 Elle met en avant des fonctionnalités modernes : **authentification JWT**, permissions personnalisées, commentaires, filtrage avancé côté front, et intégration soignée entre front et back.
 
-## 🧱 Architecture
+## Architecture
 
 - **Backend** : Django + Django REST Framework
 	- API JSON pour articles, catégories, tags, auteurs, commentaires
@@ -12,7 +12,7 @@ Elle met en avant des fonctionnalités modernes : **authentification JWT**, perm
 	- SPA responsive avec Bootstrap 5 + Bootstrap Icons
 	- Gestion de l’authentification, appels API, filtrage, formulaire de commentaires
 
-## ✨ Fonctionnalités principales
+## Fonctionnalités principales
 
 ### Backend (Django / DRF)
 
