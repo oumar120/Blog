@@ -85,7 +85,7 @@ Elle met en avant des fonctionnalités modernes : **authentification JWT**, perm
 		- Sidebar (recherche, catégories, tags)
 	- Écran “Aucun article trouvé” avec icône et message centré
 
-## 🚀 Démarrer le projet
+## Démarrer le projet
 
 ### Backend – Django API 
 
@@ -126,7 +126,7 @@ Build de production :
 npm run build -- --configuration production
 ```
 
-## 🧪 Authentification JWT – Flow
+## Authentification JWT – Flow
 
 1. L’utilisateur se connecte via le formulaire Angular.
 2. Le front appelle `POST /api/token/` (SimpleJWT) avec `username` + `password`.
