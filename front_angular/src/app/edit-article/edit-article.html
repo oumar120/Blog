@@ -1,0 +1,59 @@
+
+<div class="container mt-4">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 border bg-light mb-3">
+
+        <!-- Title -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="title">
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Content</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="15" formControlName="content"></textarea>
+            </div>
+        </div>
+
+        <!-- Is published -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Is published</label>
+            <div class="col-sm-10 d-flex align-items-center">
+                <input type="checkbox" class="form-check-input" formControlName="is_published" [checked]="form.get('is_published')?.value">
+            </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+                <select class="form-select" formControlName="category_id">
+                    @for(cat of categories();track cat.id){
+                    <option [value]="cat.id" >{{cat.name}}</option>
+                    }   
+                </select>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Tags</label>
+            <div class="col-sm-10">
+                <select class="form-select" multiple size="8" formControlName="tag_ids">
+                    @for (tag of tags(); track tag.id) {
+                    <option [value]="tag.id">{{tag.name}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="text-end">
+            <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Créer</button>
+        </div>
+
+    </form>
+</div>

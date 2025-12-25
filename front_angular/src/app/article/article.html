@@ -1,0 +1,107 @@
+<app-header></app-header>
+<!-- Main container -->
+<div class="container">
+  <div class="row">
+
+    <div class="col-lg-8">
+
+      <div class="card mb-4 shadow-lg border-top-0 border-bottom-0 border-end-0 border-3 border-black" 
+      *ngFor="let article of filteredArticles()">
+        
+        <!-- Image 
+        <img 
+          [src]="article!.image" 
+          class="card-img-top" 
+          alt="Article image"
+          *ngIf="article.image"
+          [alt]="article.title"
+          style="max-height: 400px; object-fit: cover;"
+        />-->
+
+        <div class="card-body">
+          <h3 class="card-title">{{ article.title }}</h3>
+          <div class="mb-2 text-muted small">
+            <span><i class="bi bi-person"></i> {{ article.author_name }}</span> • 
+            <span><i class="bi bi-calendar"></i> {{ article.created_at | date }}</span> •
+            <span class="badge bg-primary">{{ article.category?.name }}</span>
+          </div>
+
+          <p class="card-text">
+            {{ article.content | slice:0:180 }}...
+          </p>
+
+          <a  class="btn btn-outline-primary" routerLink="/article/{{article.id}}">
+            Lire plus
+          </a>
+          <button class="btn btn-sm btn-outline-danger float-end" (click)="deleteArticle(article.id)" 
+             *ngIf="article.can_delete && authService.currentUser()?.permissions.includes('app.delete_article')"> 
+            <i class="bi bi-trash"></i> Supprimer</button>
+          <button class="btn btn-sm btn-outline-primary float-end me-1" routerLink="/article/edit/{{article.id}}" 
+              *ngIf="article.can_delete && authService.currentUser()?.permissions.includes('app.change_article')"> 
+            <i class="bi bi-pencil"></i> Editer</button>
+        </div>
+
+        <div class="card-footer bg-white border-top small">
+          <span *ngFor="let tag of article.tags" class="badge bg-dark me-1">
+            {{ tag?.name }}
+          </span>
+        </div>
+
+      </div>
+      <div *ngIf="filteredArticles().length === 0" class="d-flex justify-content-center align-items-center my-5">
+      <div class="text-center text-muted">
+        <div 
+        class="rounded-circle bg-light d-inline-flex justify-content-center align-items-center mb-3"
+        style="width: 80px; height: 80px; border: 1px dashed #ced4da;"
+        >
+        <i class="bi bi-journal-x" style="font-size: 2rem; color: #6c757d;"></i>
+        </div>
+        <h5 class="mb-1">Aucun article trouvé</h5>
+        <p class="mb-0">Essayez de modifier votre recherche ou revenez plus tard.</p>
+      </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+      <!-- Search -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header fw-bold"><i class="bi bi-search"></i> Recherche</div>
+        <div class="card-body">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Rechercher un article..." [(ngModel)]="searchTerm" name="searchTerm" />
+            <button class="btn btn-primary">OK</button>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header fw-bold"> <i class="bi bi-tags"></i> Catégories</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let cat of categories()" (click)="onSearch(cat.name)" 
+          style="cursor: pointer;" [ngStyle]="{'background-color': searchCatTag().includes(cat.name)? '#e9ecef':''}">
+            {{ cat.name }} <i class="bi bi-backspace-reverse-fill float-end" *ngIf="searchCatTag().includes(cat.name)"></i>
+          </li>
+        </ul>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header fw-bold"><i class="bi bi-tags"></i> Tags</div>
+        <div class="card-body">
+          <span class="me-1 mb-1 badge" *ngFor="let tag of tags()" (click)="onSearch(tag.name)" style="cursor: pointer;"
+          [ngClass]="{'bg-secondary': searchCatTag().includes(tag.name), 'bg-primary': !searchCatTag().includes(tag.name)}">
+            {{ tag.name }} <i class="bi bi-backspace-reverse-fill" *ngIf="searchCatTag().includes(tag.name)"></i>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-light py-4 mt-5 border-top">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 - MonBlog. Tous droits réservés.</p>
+  </div>
+</footer>

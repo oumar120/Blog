@@ -1,0 +1,160 @@
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10">
+
+      <div class="card shadow-sm mb-4">
+        <img 
+          *ngIf="article()?.image"
+          [src]="article()?.image"
+          class="card-img-top"
+          alt="Image de l'article"
+          style="max-height: 450px; object-fit: cover;"
+        />
+
+        <div class="card-body">
+
+          <div class="mb-3 text-muted small d-flex gap-3">
+            <span><i class="bi bi-person"></i> {{ article()?.author_name }}</span>
+            <span><i class="bi bi-calendar"></i> {{ article()?.created_at | date }}</span>
+            <span class="badge bg-primary">{{ article()?.category.name }}</span>
+          </div>
+            <h2 class="card-title mb-4">{{ article()?.title }}</h2>
+          <div class="article-content">
+            <p class="fs-5" [innerHTML]="article()?.content"></p>
+          </div>
+
+        </div>
+      </div>
+
+      <a routerLink="/articles" class="btn btn-outline-primary">
+        ← Retour aux articles
+      </a>
+
+      <section class="mt-4 mb-4">
+      <h4 class="mb-3">Laisser un commentaire</h4>
+      <form #f="ngForm" (ngSubmit)="onSubmitComment(f,article().id)" >
+        <div class="row g-3">
+        <div class="col-md-6">
+          <label for="commentName" class="form-label">Nom</label>
+          <input
+           type="text"
+           name="name"
+           class="form-control"
+           id="commentName"
+           placeholder="Votre nom"
+           required
+           ngModel/>
+        </div>
+        <div class="col-md-6">
+          <label for="commentEmail" class="form-label">Email</label>
+          <input
+           type="email"
+            name="email"
+            email
+           class="form-control"
+           id="commentEmail"
+           placeholder="Votre email"
+           required
+            ngModel
+           #email="ngModel"/>
+           <span *ngIf="email.errors?.['email']" class="text-danger small mt-1">
+            Merci de renseigner un email valide (ex: nom@domaine.com).
+          </span>
+        </div>
+        <div class="col-12">
+          <label for="commentContent" class="form-label">Contenu</label>
+          <textarea
+          class="form-control"
+          id="commentContent"
+          rows="4"
+          placeholder="Votre commentaire..."
+          required
+          ngModel
+          name="content"
+          ></textarea>
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+          Envoyer le commentaire
+          </button>
+        </div>
+        </div>
+      </form>
+      </section>
+
+      <section class="mt-4 mb-5">
+      <h4 class="mb-3">Commentaires</h4>
+      <div *ngIf="article()?.comments?.length; else noComments">
+        <div 
+        *ngFor="let comment of article()?.comments" 
+        class="d-flex gap-3 border-top pt-3 mt-3"
+        >
+        <div 
+          class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+          style="width: 40px; height: 40px; font-weight: 600;"
+        >
+          {{ comment.name?.charAt(0) | uppercase }}
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+          <div>
+            <span class="fw-semibold">{{ comment.name }}</span>
+            <span class="text-muted small ms-2">{{ comment.email }}</span>
+          </div>
+          <span class="text-muted small">
+            {{ comment.created_at | date:'short' }}
+          </span>
+          </div>
+          <p class="mb-0">{{ comment.content }}</p>
+        </div>
+        </div>
+      </div>
+      <ng-template #noComments>
+        <p class="text-muted fst-italic mb-0">
+        Aucun commentaire pour le moment. Soyez le premier à réagir !
+        </p>
+      </ng-template>
+      </section>
+    </div>
+    <div class="col-lg-2">
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header fw-bold"> <i class="bi bi-person"></i> Auteur</div>
+        <div class="card-body d-flex align-items-center gap-3">
+
+          <img 
+            *ngIf="article()?.author_avatar"
+            [src]="article()?.author_avatar"
+            class="rounded-circle"
+            style="width: 60px; height: 60px; object-fit: cover;"
+          />
+
+          <div>
+            <h6 class="m-0">{{ article()?.author_name }}</h6>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header fw-bold"> <i class="bi bi-tags"></i> Catégorie</div>
+        <div class="card-body">
+          <span class="badge bg-primary fs-6">{{ article()?.category.name }}</span>
+        </div>
+      </div>
+      <div class="card shadow-sm mb-4">
+        <div class="card-header fw-bold"> <i class="bi bi-tags"></i> Tags</div>
+        <div class="card-body">
+          <span 
+            *ngFor="let tag of article()?.tags" 
+            class="badge bg-primary me-1"
+          >
+            {{ tag.name }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

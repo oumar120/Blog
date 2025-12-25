@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h4>Connexion</h4>
+                    <p class="text-muted">{{message()}}</p>
+                </div>
+                <div class="card-body">
+                    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">username</label>
+                            <input type="text" required [(ngModel)]="login" name="login" class="form-control" placeholder="username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" required [(ngModel)]="password" name="password" class="form-control" placeholder="Entrez votre mot de passe">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="f.invalid">Se connecter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

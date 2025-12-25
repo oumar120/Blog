@@ -1,0 +1,18 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">MonBlog</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLink="/articles"> <i class="bi bi-house-door-fill"></i> Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/add-article" *ngIf="isAuthenticated()"> <i class="bi bi-plus-circle"></i> Ajouter article</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" *ngIf="!isAuthenticated()" routerLink="/login"><i class="bi bi-key-fill"></i> Connexion</a></li>
+         <li class="nav-item"><button class="nav-link btn btn-link" (click)="logOut()" *ngIf="isAuthenticated()"><i class="bi bi-box-arrow-right"></i> Deconnexion</button></li>
+      </ul>
+    </div>
+  </div>
+</nav>
