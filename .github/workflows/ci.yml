@@ -1,0 +1,124 @@
+# =============================================================================
+# GITHUB ACTIONS - WORKFLOW CI (Continuous Integration)
+# =============================================================================
+# Ce fichier est lu automatiquement par GitHub à chaque push/PR
+# Il définit les "jobs" (tâches) à exécuter
+# =============================================================================
+
+# Nom du workflow (affiché dans l'onglet Actions de GitHub)
+name: CI - Tests & Linting
+
+# =============================================================================
+# QUAND déclencher ce workflow ?
+# =============================================================================
+on:
+  # À chaque push sur la branche master
+  push:
+    branches: [ master ]
+  
+  # À chaque Pull Request vers master
+  pull_request:
+    branches: [ master ]
+
+# =============================================================================
+# LES JOBS (tâches à exécuter)
+# =============================================================================
+jobs:
+
+  # ---------------------------------------------------------------------------
+  # JOB 1 : Tester le Backend Django
+  # ---------------------------------------------------------------------------
+  test-backend:
+    # Sur quelle machine virtuelle exécuter ?
+    runs-on: ubuntu-latest
+    
+    # Variables d'environnement pour ce job
+    env:
+      DJANGO_SECRET_KEY: 'test-secret-key-for-ci'
+      DJANGO_DEBUG: 'True'
+      DJANGO_ALLOWED_HOSTS: 'localhost,127.0.0.1'
+    
+    # Les étapes du job (exécutées dans l'ordre)
+    steps:
+      # Étape 1 : Récupérer le code du repo
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        # Explication : GitHub Actions part d'une machine vide
+        # Il faut d'abord "cloner" ton repo sur cette machine
+      
+      # Étape 2 : Installer Python
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          # Cache pip pour accélérer les prochains builds
+          cache: 'pip'
+          cache-dependency-path: 'back_dango/requirements.txt'
+      
+      # Étape 3 : Installer les dépendances Python
+      - name: 📦 Install dependencies
+        run: |
+          cd back_dango
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        # "run" exécute des commandes shell (comme dans ton terminal)
+      
+      # Étape 4 : Vérifier la syntaxe Python (linting)
+      - name: 🔍 Check Python syntax
+        run: |
+          pip install flake8
+          cd back_dango/src
+          # Vérifier les erreurs de syntaxe (ignore les warnings de style)
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      
+      # Étape 5 : Lancer les tests Django
+      - name: 🧪 Run Django tests
+        run: |
+          cd back_dango/src
+          python manage.py test --verbosity=2
+        # --verbosity=2 affiche plus de détails sur les tests
+
+  # ---------------------------------------------------------------------------
+  # JOB 2 : Tester le Frontend Angular
+  # ---------------------------------------------------------------------------
+  test-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      # Installer Node.js
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'front_angular/package-lock.json'
+      
+      # Installer les dépendances npm
+      - name: 📦 Install dependencies
+        run: |
+          cd front_angular
+          npm ci
+        # "npm ci" est plus rapide que "npm install" en CI
+        # Il utilise exactement les versions du package-lock.json
+      
+      # Vérifier que le build passe
+      - name: 🔨 Build Angular
+        run: |
+          cd front_angular
+          npm run build
+        # Si le build échoue, le workflow échoue aussi
+
+  # ---------------------------------------------------------------------------
+  # JOB 3 : Message de succès (optionnel)
+  # ---------------------------------------------------------------------------
+  success-message:
+    # Ce job ne s'exécute QUE si les deux autres ont réussi
+    needs: [test-backend, test-frontend]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ✅ All tests passed!
+        run: echo "🎉 Backend and Frontend tests passed successfully!"
