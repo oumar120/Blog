@@ -3,6 +3,8 @@
 Application de blog complète construite avec **Django REST Framework** (backend API) et **Angular** (frontend SPA).
 Elle met en avant des fonctionnalités modernes : **authentification JWT**, permissions personnalisées, commentaires, filtrage avancé côté front, et intégration soignée entre front et back.
 
+**Demo** https://blog-frontend-b1cg.onrender.com
+
 ## Architecture
 
 - **Backend** : Django + Django REST Framework
@@ -102,7 +104,7 @@ python manage.py runserver
 
 L’API est exposée sur `http://127.0.0.1:8000/api/`.
 
-### Frontend – Angular (ce dépôt)
+### Frontend – Angular 
 
 ```bash
 npm install

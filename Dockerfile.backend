@@ -1,0 +1,20 @@
+# Dockerfile pour le backend Django
+# ---------------------------------
+# 1. Utilise une image officielle Python comme base
+FROM python:3.9-slim
+
+# 2. Définit le dossier de travail dans le container
+WORKDIR /app
+
+# 3. Copie le fichier requirements.txt et installe les dépendances
+COPY back_dango/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Copie le code source du backend dans le container
+COPY back_dango/src/ ./src/
+
+# 5. Variables d'environnement (optionnel)
+ENV PYTHONUNBUFFERED=1
+
+# 6. Commande de démarrage (Gunicorn, production)
+CMD ["gunicorn", "blog.wsgi:application", "--chdir", "src", "--bind", "0.0.0.0:8000"]

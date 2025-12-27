@@ -1,0 +1,29 @@
+# Dockerfile pour le frontend Angular
+# -----------------------------------
+# 1. Étape de build : Utilise Node.js pour compiler l'app Angular
+FROM node:20 AS build
+
+# 2. Dossier de travail pour le build
+WORKDIR /app
+
+# 3. Copie les fichiers package.json et package-lock.json pour installer les dépendances
+COPY front_angular/package*.json ./
+RUN npm ci
+
+# 4. Copie tout le code source Angular dans le container
+COPY front_angular/ ./
+
+# 5. Build l'application Angular (prod)
+RUN npm run build
+
+# 6. Étape de production : Utilise Nginx pour servir les fichiers statiques
+FROM nginx:alpine
+
+# 7. Copie le build Angular dans le dossier public de Nginx
+COPY --from=build /app/dist/blog/browser /usr/share/nginx/html
+
+# 8. Expose le port 80 (HTTP)
+EXPOSE 80
+
+# 9. Commande de démarrage (Nginx)
+CMD ["nginx", "-g", "daemon off;"]
