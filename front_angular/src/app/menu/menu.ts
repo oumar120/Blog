@@ -13,7 +13,6 @@ export class Menu  {
 authService = inject(AuthService)
 router = inject(Router);
 isAuthenticated = this.authService.isAuth$;
-
 logOut(){
   this.authService.logOut();
   this.router.navigate(['/articles']);

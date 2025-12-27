@@ -2,12 +2,12 @@ import { NgIf, NgFor, DatePipe, UpperCasePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Header } from '../header/header';
 import { DataService } from '../service/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-article-detail',
-  imports: [Header,NgIf,NgFor,DatePipe,UpperCasePipe,FormsModule],
+  imports: [Header,NgIf,NgFor,DatePipe,UpperCasePipe,FormsModule,RouterLink],
   templateUrl: './article-detail.html',
   styleUrl: './article-detail.css',
 })
